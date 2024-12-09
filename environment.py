@@ -2,8 +2,10 @@ import networkx as nx
 import random
 import time
 
+
 class Environment:
     """Graph-based environment with terrain and timed resource respawn."""
+
     def __init__(self, grid_size, num_resources, respawn_count=5):
         self.graph = nx.Graph()
         self.grid_size = grid_size

@@ -1,21 +1,23 @@
 import pygame
 
+
 class Simulation:
     """Manages the simulation loop and visualization."""
+
     def __init__(self, grid_size, num_resources, num_agents, environment_cls, agent_cls):
         # Initialize the environment
         self.environment = environment_cls(grid_size, num_resources)
 
         # Initialize all agents at the nest
         self.agents = [
-            agent_cls(self.environment, self.environment.nest, colony_id=0)
+            agent_cls(self.environment, (grid_size // 2, grid_size // 2), colony_id=0)
             for _ in range(num_agents)
         ]
 
     def step(self):
         # Perform actions for all agents
         for agent in self.agents:
-            agent.act()
+            agent.act(self.agents)
 
         # Decay pheromones and respawn resources
         self.environment.decay_pheromones()
@@ -36,10 +38,16 @@ class Simulation:
 
         # Draw resources
         for resource in self.environment.resources:
-            pygame.draw.circle(screen, (25,175, 90), (resource["pos"][1] * cell_size + cell_size // 2, resource["pos"][0] * cell_size + cell_size // 2), 5)
+            pygame.draw.circle(screen, (25, 175, 90), (
+                resource["pos"][1] * cell_size + cell_size // 2, resource["pos"][0] * cell_size + cell_size // 2), 5)
 
         # Draw nest
-        pygame.draw.circle(screen, (120, 45, 13), (self.environment.nest[1] * cell_size + cell_size // 2, self.environment.nest[0] * cell_size + cell_size // 2), 10)
+        pygame.draw.circle(screen, (120, 45, 13), (
+            self.environment.nest[1] * cell_size + cell_size // 2,
+            self.environment.nest[0] * cell_size + cell_size // 2),
+                           10)
+
         # Draw agents
         for agent in self.agents:
-            pygame.draw.circle(screen, (255, 0, 0), (agent.current_position[1] * cell_size + cell_size // 2, agent.current_position[0] * cell_size + cell_size // 2), 5)
+            pygame.draw.circle(screen, (255, 0, 0, 20), (agent.current_position[1] * cell_size + cell_size // 2,
+                                                         agent.current_position[0] * cell_size + cell_size // 2), 5)

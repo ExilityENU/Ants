@@ -1,8 +1,10 @@
 import networkx as nx
 import random
 
+
 class Ant:
     """Agent navigating the graph-based environment."""
+
     def __init__(self, environment, nest, colony_id):
         self.environment = environment
         self.current_position = nest
@@ -28,7 +30,7 @@ class Ant:
         )
         return best_resource
 
-    def act(self):
+    def act(self, agents):
         # Ensure the agent's current position is valid
         if self.current_position not in self.environment.graph.nodes:
             # Move to a random valid node if the current position is invalid
@@ -59,12 +61,20 @@ class Ant:
                     path = nx.shortest_path(self.environment.graph, self.current_position, best_resource["pos"],
                                             weight="weight")
                     if len(path) > 1:
+                        for agent in agents:
+                            if agent.current_position == path[1]:
+                                rand_spot = None
+                                return
                         self.current_position = path[1]
             else:
                 # Move randomly if no resources are reachable
                 neighbors = list(self.environment.graph.neighbors(self.current_position))
                 if neighbors:
-                    self.current_position = random.choice(neighbors)
+                    rand_spot = random.choice(neighbors)
+                    for agent in agents:
+                        if agent.current_position == rand_spot:
+                            rand_spot = None
+                            return
 
-
-
+                    self.current_position = rand_spot
+                    rand_spot = None
