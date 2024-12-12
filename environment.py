@@ -4,7 +4,7 @@ import time
 
 
 class Environment:
-    def __init__(self, grid_size, num_resources, respawn_count=6, num_colonies=2):
+    def __init__(self, grid_size, num_resources, respawn_count=1, num_colonies=2):
         self.graph = nx.Graph()
         self.grid_size = grid_size
         self.nests = []
@@ -87,7 +87,7 @@ class Environment:
 
     def respawn_resources(self):
         current_time = time.time()
-        if current_time - self.respawn_timer >= 5:  # respawn every 5 seconds
+        if current_time - self.respawn_timer >= 1:  # respawn every [1,2,3,4,5,6,7,8,.....] seconds
             for _ in range(self.respawn_count):
                 self.add_resource()
             self.respawn_timer = current_time  # reset the timer after all resources are added

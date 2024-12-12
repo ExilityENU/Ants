@@ -12,7 +12,7 @@ def main():
     num_resources = 45 # how many spawn when game is stated
     num_colonies = 3
     num_agents_per_colony = 6
-    cell_size = 15
+    cell_size = 20
 
     screen = pygame.display.set_mode((grid_size * cell_size, grid_size * cell_size))
     pygame.display.set_caption("Ant-Mania")
@@ -44,7 +44,7 @@ def main():
             running = False
 
         pygame.display.flip()
-        clock.tick(9)
+        clock.tick(15)
 
     pygame.quit()
 
