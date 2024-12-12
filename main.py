@@ -7,10 +7,10 @@ from simulation import Simulation
 def main():
     pygame.init()
     grid_size = 50
-    num_resources = 60
+    num_resources = 45
     num_colonies = 2
     num_agents_per_colony = 6
-    cell_size = 20
+    cell_size = 15
 
     screen = pygame.display.set_mode((grid_size * cell_size, grid_size * cell_size))
     pygame.display.set_caption("Antmania")

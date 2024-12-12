@@ -60,8 +60,7 @@ class WorkerAnt(Ant):
             # Search for resources
             best_resource = self.find_best_resource()
             if best_resource:
-                path = nx.shortest_path(self.environment.graph, self.current_position, best_resource["pos"],
-                                        weight="weight")
+                path = nx.shortest_path(self.environment.graph, self.current_position, best_resource["pos"], weight="weight")
                 if len(path) > 1:
                     next_position = path[1]
                     self.environment.add_pheromone([self.current_position])  # Add pheromone at current position
@@ -71,17 +70,16 @@ class WorkerAnt(Ant):
                     self.environment.resources.remove(best_resource)
         else:
             # Return to nest
-            path = nx.shortest_path(self.environment.graph, self.current_position,
-                                    self.environment.nests[self.colony_id], weight="weight")
+            path = nx.shortest_path(self.environment.graph, self.current_position, self.environment.nests[self.colony_id], weight="weight")
             if len(path) > 1:
                 next_position = path[1]
                 self.environment.add_pheromone([self.current_position])  # Add pheromone at current position
                 self.current_position = next_position
             if self.current_position == self.environment.nests[self.colony_id]:
                 self.environment.colony_food_count[self.colony_id] += 1  # Log food collection
-                print(
-                    f"Colony {self.colony_id} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
+                print(f"Colony {self.colony_id} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
                 self.carrying = None
+
 
 
 class SoldierAnt(Ant):

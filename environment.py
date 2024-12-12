@@ -4,7 +4,7 @@ import time
 
 
 class Environment:
-    def __init__(self, grid_size, num_resources, respawn_count=8, num_colonies=2):
+    def __init__(self, grid_size, num_resources, respawn_count=3, num_colonies=2):
         self.graph = nx.Graph()
         self.grid_size = grid_size
         self.nests = []
@@ -62,7 +62,7 @@ class Environment:
             x, y = random.randint(0, self.grid_size - 1), random.randint(0, self.grid_size - 1)
             if (x, y) not in self.nests and (x, y) in self.graph.nodes:
                 resource_type = random.choice(["food"])
-                utility = {"food": 60}[resource_type]
+                utility = {"food": 15, "water": 5, "energy": 3}[resource_type]
                 self.resources.append({"pos": (x, y), "type": resource_type, "utility": utility})
                 break
 
