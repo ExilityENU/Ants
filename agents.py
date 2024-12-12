@@ -60,7 +60,7 @@ class WorkerAnt(Ant):
             if self.current_position == self.environment.nests[self.colony_id]:
                 self.environment.colony_food_count[self.colony_id] += 1
                 print(
-                    f"Nest {self.colony_id} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
+                    f"Nest {self.colony_id + 1} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
                 self.carrying = None
 
 
@@ -72,7 +72,7 @@ class SoldierAnt(Ant):
                 try:
                     distance = nx.shortest_path_length(self.environment.graph, self.current_position,
                                                        agent.current_position)
-                    if distance == 1:  # engage in combat if adjacent
+                    if distance == 4:  # engage in combat if adjacent
                         self.fight(agent)
                         return  # stop further actions this step
                 except nx.NetworkXNoPath:
@@ -87,18 +87,18 @@ class SoldierAnt(Ant):
 
     def fight(self, enemy):
         # logic for all the fighting between the ants
-        print(f"Soldier from Nest {self.colony_id} is fighting Soldier from Nest {enemy.colony_id}")
+        print(f"Soldier from Nest {self.colony_id + 1} is fighting Soldier from Nest {enemy.colony_id + 1}")
         if random.random() > 0.5:  # 50% chance to win
-            print(f"Soldier from Nest {enemy.colony_id} defeated!")
+            print(f"Soldier from Nest {enemy.colony_id + 1} defeated!")
             enemy.respawn()
         else:
-            print(f"Soldier from Nest {self.colony_id} defeated!")
+            print(f"Soldier from Nest {self.colony_id + 1} defeated!")
             self.respawn()
 
     def respawn(self):
 
         self.current_position = self.environment.nests[self.colony_id]
-        print(f"Soldier from Nest {self.colony_id} has respawned at the nest.")
+        print(f"Soldier from Nest {self.colony_id + 1} has respawned at the nest.")
 
 
 class QueenAnt(Ant):
