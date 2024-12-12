@@ -33,7 +33,7 @@ class Environment:
                         self.graph.add_edge((x, y), (next_x, next_y), weight=1.0)
 
     def _generate_terrain(self):
-        terrain_weights = {"grass": 0.45, "rock": 0.45, "water": 0.10}  # 35% both grass and rocks 30% water
+        terrain_weights = {"grass": 0.45, "rock": 0.45, "water": 0.10}  # % for grass, rocks, water
         terrain_types = list(terrain_weights.keys())
         terrain_probabilities = list(terrain_weights.values())
 
@@ -65,7 +65,7 @@ class Environment:
             x, y = random.randint(0, self.grid_size - 1), random.randint(0, self.grid_size - 1)
             if (x, y) not in self.nests and (x, y) in self.graph.nodes:
                 resource_type = random.choice(["food", "water", "energy"])
-                utility = {"food": 10, "water": 5, "energy": 3}[resource_type]
+                utility = {"food": 10, "water": 5, "energy": 10}[resource_type]
                 self.resources.append({"pos": (x, y), "type": resource_type, "utility": utility})
                 # print(f"Resource added: {resource_type} at ({x}, {y})")
                 break
