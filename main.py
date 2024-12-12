@@ -5,9 +5,11 @@ from simulation import Simulation
 
 
 def main():
-    pygame.init()
+    pygame.init() # this initialises the pygame
+
+    # all the settings below can change the map
     grid_size = 50
-    num_resources = 45
+    num_resources = 45 # how many spawn when game is stated
     num_colonies = 2
     num_agents_per_colony = 6
     cell_size = 15
@@ -38,11 +40,11 @@ def main():
             simulation.draw(screen, cell_size)
         else:
             print(f"Simulation Ended! Colony {simulation.winner} wins!")
-            simulation.display_scores()  # Show the breakdown of scores
+            simulation.display_scores()  # shows food score in terminal
             running = False
 
         pygame.display.flip()
-        clock.tick(10)
+        clock.tick(8)
 
     pygame.quit()
 

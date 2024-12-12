@@ -42,46 +42,63 @@ class WorkerAnt(Ant):
                                         weight="weight")
                 if len(path) > 1:
                     next_position = path[1]
-                    self.environment.add_pheromone([self.current_position])  # Add pheromone at current position
+                    self.environment.add_pheromone([self.current_position])  # add pheromone at current position
                     self.current_position = next_position
+                    self.move_to(next_position, occupied_positions)
                 if self.current_position == best_resource["pos"]:
                     self.carrying = best_resource["type"]
                     self.environment.resources.remove(best_resource)
         else:
-            # Return to nest
+            # return to nest
             path = nx.shortest_path(self.environment.graph, self.current_position,
                                     self.environment.nests[self.colony_id], weight="weight")
             if len(path) > 1:
                 next_position = path[1]
-                self.environment.add_pheromone([self.current_position])  # Add pheromone at current position
+                self.environment.add_pheromone([self.current_position])
                 self.current_position = next_position
+                self.move_to(next_position, occupied_positions)
             if self.current_position == self.environment.nests[self.colony_id]:
-                self.environment.colony_food_count[self.colony_id] += 1  # Log food collection
+                self.environment.colony_food_count[self.colony_id] += 1
                 print(
                     f"Colony {self.colony_id} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
                 self.carrying = None
 
 
 class SoldierAnt(Ant):
-    def __init__(self, environment, nest, colony_id):
-        super().__init__(environment, nest, colony_id)
-        self.attack_radius = 3
-
     def act(self, agents, occupied_positions):
+        # find nearby enemy soldier ants
         for agent in agents:
-            if agent.colony_id != self.colony_id:
+            if isinstance(agent, SoldierAnt) and agent.colony_id != self.colony_id:
                 try:
-                    distance = nx.shortest_path_length(
-                        self.environment.graph, self.current_position, agent.current_position
-                    )
-                    if distance <= self.attack_radius:
-                        agent.current_position = self.environment.nests[agent.colony_id]
-                        return
+                    distance = nx.shortest_path_length(self.environment.graph, self.current_position,
+                                                       agent.current_position)
+                    if distance == 1:  # engage in combat if adjacent
+                        self.fight(agent)
+                        return  # stop further actions this step
                 except nx.NetworkXNoPath:
                     continue
+
+        # move randomly if no enemies nearby
         neighbors = list(self.environment.graph.neighbors(self.current_position))
         if neighbors:
-            self.current_position = random.choice(neighbors)
+            next_position = random.choice(neighbors)
+            if self.move_to(next_position, occupied_positions):
+                occupied_positions.add(next_position)
+
+    def fight(self, enemy):
+        # logic for all the fighting between the ants
+        print(f"Soldier from Colony {self.colony_id} is fighting Soldier from Colony {enemy.colony_id}")
+        if random.random() > 0.5:  # 50% chance to win
+            print(f"Soldier from Colony {enemy.colony_id} defeated!")
+            enemy.respawn()
+        else:
+            print(f"Soldier from Colony {self.colony_id} defeated!")
+            self.respawn()
+
+    def respawn(self):
+
+        self.current_position = self.environment.nests[self.colony_id]
+        print(f"Soldier from Colony {self.colony_id} has respawned at the nest.")
 
 
 class QueenAnt(Ant):
