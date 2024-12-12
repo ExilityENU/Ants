@@ -13,7 +13,7 @@ def main():
     cell_size = 15
 
     screen = pygame.display.set_mode((grid_size * cell_size, grid_size * cell_size))
-    pygame.display.set_caption("Antmania")
+    pygame.display.set_caption("Ant-Mania")
     clock = pygame.time.Clock()
 
     environment = Environment(grid_size, num_resources, num_colonies=num_colonies)

@@ -1,5 +1,5 @@
 import pygame
-import time
+
 
 from agents import WorkerAnt, SoldierAnt
 
