@@ -22,21 +22,24 @@ class Environment:
     def _initialize_graph(self):
         directions = [
             (1, 0), (0, 1), (-1, 0), (0, -1),  # Cardinal directions
-            (1, 1), (-1, -1), (1, -1), (-1, 1)  # Diagonal directions
+            (1, 1), (-1, -1), (1, -1), (-1, 1)  # Diagonal directions (if allowed)
         ]
         for x in range(self.grid_size):
             for y in range(self.grid_size):
                 self.graph.add_node((x, y))
                 for dx, dy in directions:
-                    nx, ny = x + dx, y + dy
-                    if 0 <= nx < self.grid_size and 0 <= ny < self.grid_size:
-                        self.graph.add_edge((x, y), (nx, ny), weight=1.0)
+                    next_x, next_y = x + dx, y + dy
+                    if 0 <= next_x < self.grid_size and 0 <= next_y < self.grid_size:
+                        self.graph.add_edge((x, y), (next_x, next_y), weight=1.0)
 
     def _generate_terrain(self):
-        terrain_types = ["grass", "water", "rock"]
+        terrain_weights = {"grass": 0.45, "rock": 0.45, "water": 0.10}  # 35% both grass and rocks 30% water
+        terrain_types = list(terrain_weights.keys())
+        terrain_probabilities = list(terrain_weights.values())
+
         for x in range(self.grid_size):
             for y in range(self.grid_size):
-                terrain = random.choice(terrain_types)
+                terrain = random.choices(terrain_types, weights=terrain_probabilities, k=1)[0]
                 self.terrain[(x, y)] = terrain
                 if terrain == "water":
                     self.graph.remove_node((x, y))
@@ -64,7 +67,7 @@ class Environment:
                 resource_type = random.choice(["food", "water", "energy"])
                 utility = {"food": 10, "water": 5, "energy": 3}[resource_type]
                 self.resources.append({"pos": (x, y), "type": resource_type, "utility": utility})
-                #print(f"Resource added: {resource_type} at ({x}, {y})")  # Debug log
+                # print(f"Resource added: {resource_type} at ({x}, {y})")  # Debug log
                 break
 
     def add_pheromone(self, path):
@@ -86,4 +89,4 @@ class Environment:
             for _ in range(self.respawn_count):  # Add `respawn_count` resources
                 self.add_resource()
             self.respawn_timer = current_time  # Reset the timer after all resources are added
-            #print(f"Resources respawned. Total resources: {len(self.resources)}")
+            # print(f"Resources respawned. Total resources: {len(self.resources)}")
