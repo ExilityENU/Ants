@@ -26,12 +26,12 @@ class Simulation:
         for colony_id, food_count in self.environment.colony_food_count.items():
             if food_count >= self.winning_food_count:
                 self.winner = colony_id
-                print(f"Colony {colony_id} wins with {food_count} food collected!")
+                print(f"Nest {colony_id} wins with {food_count} food collected!")
 
     def display_scores(self):
         print("Final Scores:")
         for colony_id, food_count in self.environment.colony_food_count.items():
-            print(f"Colony {colony_id}: {food_count} food collected")
+            print(f"Nest {colony_id}: {food_count} food collected")
 
     def draw(self, screen, cell_size):
         screen.fill((255, 255, 255))

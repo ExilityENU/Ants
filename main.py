@@ -39,7 +39,7 @@ def main():
             simulation.step()
             simulation.draw(screen, cell_size)
         else:
-            print(f"Simulation Ended! Colony {simulation.winner} wins!")
+            print(f"Simulation Ended! Nest {simulation.winner} wins!")
             simulation.display_scores()  # shows food score in terminal
             running = False
 

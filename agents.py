@@ -60,7 +60,7 @@ class WorkerAnt(Ant):
             if self.current_position == self.environment.nests[self.colony_id]:
                 self.environment.colony_food_count[self.colony_id] += 1
                 print(
-                    f"Colony {self.colony_id} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
+                    f"Nest {self.colony_id} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
                 self.carrying = None
 
 
@@ -87,18 +87,18 @@ class SoldierAnt(Ant):
 
     def fight(self, enemy):
         # logic for all the fighting between the ants
-        print(f"Soldier from Colony {self.colony_id} is fighting Soldier from Colony {enemy.colony_id}")
+        print(f"Soldier from Nest {self.colony_id} is fighting Soldier from Nest {enemy.colony_id}")
         if random.random() > 0.5:  # 50% chance to win
-            print(f"Soldier from Colony {enemy.colony_id} defeated!")
+            print(f"Soldier from Nest {enemy.colony_id} defeated!")
             enemy.respawn()
         else:
-            print(f"Soldier from Colony {self.colony_id} defeated!")
+            print(f"Soldier from Nest {self.colony_id} defeated!")
             self.respawn()
 
     def respawn(self):
 
         self.current_position = self.environment.nests[self.colony_id]
-        print(f"Soldier from Colony {self.colony_id} has respawned at the nest.")
+        print(f"Soldier from Nest {self.colony_id} has respawned at the nest.")
 
 
 class QueenAnt(Ant):
