@@ -65,7 +65,7 @@ class WorkerAnt(Ant):
 class SoldierAnt(Ant):
     def __init__(self, environment, nest, colony_id):
         super().__init__(environment, nest, colony_id)
-        self.attack_radius = 10
+        self.attack_radius = 3
 
     def act(self, agents, occupied_positions):
         for agent in agents:
