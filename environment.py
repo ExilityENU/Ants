@@ -13,7 +13,7 @@ class Environment:
         self.respawn_count = respawn_count
         self.terrain = {}
         self.pheromone_grid = {}
-        self.colony_food_count = {i: 0 for i in range(num_colonies)}  # Track food count for each colony
+        self.colony_food_count = {i: 0 for i in range(num_colonies)}  # track food count for each colony
         self._initialize_graph()
         self._generate_terrain()
         self._place_nests(num_colonies)
@@ -21,8 +21,8 @@ class Environment:
 
     def _initialize_graph(self):
         directions = [
-            (1, 0), (0, 1), (-1, 0), (0, -1),  # Cardinal directions
-            (1, 1), (-1, -1), (1, -1), (-1, 1)  # Diagonal directions (if allowed)
+            (1, 0), (0, 1), (-1, 0), (0, -1),  # cardinal directions
+            (1, 1), (-1, -1), (1, -1), (-1, 1)  # diagonal directions (if allowed)
         ]
         for x in range(self.grid_size):
             for y in range(self.grid_size):
@@ -67,7 +67,7 @@ class Environment:
                 resource_type = random.choice(["food", "water", "energy"])
                 utility = {"food": 10, "water": 5, "energy": 3}[resource_type]
                 self.resources.append({"pos": (x, y), "type": resource_type, "utility": utility})
-                # print(f"Resource added: {resource_type} at ({x}, {y})")  # Debug log
+                # print(f"Resource added: {resource_type} at ({x}, {y})")
                 break
 
     def add_pheromone(self, path):
@@ -85,8 +85,8 @@ class Environment:
 
     def respawn_resources(self):
         current_time = time.time()
-        if current_time - self.respawn_timer >= 5:  # Respawn every 5 seconds
-            for _ in range(self.respawn_count):  # Add `respawn_count` resources
+        if current_time - self.respawn_timer >= 5:  # respawn every 5 seconds
+            for _ in range(self.respawn_count):
                 self.add_resource()
-            self.respawn_timer = current_time  # Reset the timer after all resources are added
+            self.respawn_timer = current_time  # reset the timer after all resources are added
             # print(f"Resources respawned. Total resources: {len(self.resources)}")
