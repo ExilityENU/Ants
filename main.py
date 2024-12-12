@@ -44,7 +44,7 @@ def main():
             running = False
 
         pygame.display.flip()
-        clock.tick(8)
+        clock.tick(9)
 
     pygame.quit()
 
