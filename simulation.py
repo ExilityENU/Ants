@@ -1,6 +1,5 @@
 import pygame
 
-
 from agents import WorkerAnt, SoldierAnt
 
 
@@ -20,6 +19,7 @@ class Simulation:
             for agent in self.agents:
                 agent.act(self.agents, self.occupied_positions)
             self.environment.decay_pheromones()
+            self.environment.respawn_resources()  # Ensure resources are respawned
             self.check_winner()
 
     def check_winner(self):

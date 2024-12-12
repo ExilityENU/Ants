@@ -61,20 +61,29 @@ class Environment:
         while True:
             x, y = random.randint(0, self.grid_size - 1), random.randint(0, self.grid_size - 1)
             if (x, y) not in self.nests and (x, y) in self.graph.nodes:
-                resource_type = random.choice(["food"])
-                utility = {"food": 15, "water": 5, "energy": 3}[resource_type]
+                resource_type = random.choice(["food", "water", "energy"])
+                utility = {"food": 10, "water": 5, "energy": 3}[resource_type]
                 self.resources.append({"pos": (x, y), "type": resource_type, "utility": utility})
+                #print(f"Resource added: {resource_type} at ({x}, {y})")  # Debug log
                 break
 
     def add_pheromone(self, path):
         current_time = time.time()
         for position in path:
             self.pheromone_grid[position] = current_time
-            print(f"Pheromone added at {position} at time {current_time}")
+            # print(f"Pheromone added at {position} at time {current_time}")
 
     def decay_pheromones(self):
         current_time = time.time()
         for position in list(self.pheromone_grid.keys()):
             if current_time - self.pheromone_grid[position] > 5:
                 del self.pheromone_grid[position]
-                print(f"Pheromone at {position} decayed after 5 seconds")
+                # print(f"Pheromone at {position} decayed after 5 seconds")
+
+    def respawn_resources(self):
+        current_time = time.time()
+        if current_time - self.respawn_timer >= 5:  # Respawn every 5 seconds
+            for _ in range(self.respawn_count):  # Add `respawn_count` resources
+                self.add_resource()
+            self.respawn_timer = current_time  # Reset the timer after all resources are added
+            #print(f"Resources respawned. Total resources: {len(self.resources)}")
