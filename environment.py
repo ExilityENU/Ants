@@ -4,7 +4,7 @@ import time
 
 
 class Environment:
-    def __init__(self, grid_size, num_resources, respawn_count=3, num_colonies=2):
+    def __init__(self, grid_size, num_resources, respawn_count=6, num_colonies=2):
         self.graph = nx.Graph()
         self.grid_size = grid_size
         self.nests = []
@@ -69,6 +69,8 @@ class Environment:
                 self.resources.append({"pos": (x, y), "type": resource_type, "utility": utility})
                 # print(f"Resource added: {resource_type} at ({x}, {y})")
                 break
+
+    # all print functions here are commented out as they are used for testing
 
     def add_pheromone(self, path):
         current_time = time.time()

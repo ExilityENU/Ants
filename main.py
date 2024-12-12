@@ -10,7 +10,7 @@ def main():
     # all the settings below can change the map
     grid_size = 50
     num_resources = 45 # how many spawn when game is stated
-    num_colonies = 2
+    num_colonies = 3
     num_agents_per_colony = 6
     cell_size = 15
 
