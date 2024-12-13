@@ -27,7 +27,7 @@ def main():
         for _ in range(num_agents_per_colony // 2):
             agents.append(SoldierAnt(environment, nest, colony_id))
 
-    simulation = Simulation(environment, agents, winning_food_count=40)
+    simulation = Simulation(environment, agents, winning_food_count=60)
 
     running = True
     while running:
@@ -44,7 +44,7 @@ def main():
             running = False
 
         pygame.display.flip()
-        clock.tick(100)
+        clock.tick(10)
 
     pygame.quit()
 

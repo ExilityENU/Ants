@@ -4,7 +4,7 @@ from agents import WorkerAnt, SoldierAnt
 
 
 class Simulation:
-    def __init__(self, environment, agents, winning_food_count=40):
+    def __init__(self, environment, agents, winning_food_count=60):
         self.environment = environment
         self.agents = agents
         self.winning_food_count = winning_food_count
