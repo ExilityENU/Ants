@@ -34,7 +34,7 @@ class Environment:
                     if 0 <= next_x < self.grid_size and 0 <= next_y < self.grid_size:
                         self.graph.add_edge((x, y), (next_x, next_y), weight=1.0)
 
-    def _generate_terrain(self): # randomly generate terrain
+    def _generate_terrain(self):  # randomly generate terrain
         terrain_weights = {"grass": 0.60, "rock": 0.30, "water": 0.10}  # % for grass, rocks, water
         terrain_types = list(terrain_weights.keys())
         terrain_probabilities = list(terrain_weights.values())
@@ -50,7 +50,7 @@ class Environment:
                         if self.graph.has_edge((x, y), neighbor):
                             self.graph[(x, y)][neighbor]["weight"] = 2.0
 
-    def _place_nests(self, num_colonies): # randomly spawn nest in the map
+    def _place_nests(self, num_colonies):  # randomly spawn nest in the map
         for _ in range(num_colonies):
             while True:
                 x, y = random.randint(0, self.grid_size - 1), random.randint(0, self.grid_size - 1)
@@ -58,11 +58,13 @@ class Environment:
                     self.nests.append((x, y))
                     break
 
-    def _place_resources(self, num_resources): # randomly spawn first set of resources
+    def _place_resources(self, num_resources):  # randomly spawn first set of resources
         for _ in range(num_resources):
             self.add_resource()
 
-    def add_resource(self): # new resource to a random valid grid location
+    # all print functions here are commented out as they are used for testing
+
+    def add_resource(self):  # new resource to a random valid grid location
         while True:
             x, y = random.randint(0, self.grid_size - 1), random.randint(0, self.grid_size - 1)
             if (x, y) not in self.nests and (x, y) in self.graph.nodes:
@@ -71,8 +73,6 @@ class Environment:
                 self.resources.append({"pos": (x, y), "type": resource_type, "utility": utility})
                 # print(f"resource added: {resource_type} at ({x}, {y})")
                 break
-
-    # all print functions here are commented out as they are used for testing
 
     def add_pheromone(self, path):
         current_time = time.time()

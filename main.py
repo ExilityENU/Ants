@@ -27,7 +27,7 @@ def main():
         for _ in range(num_agents_per_colony // 2):
             agents.append(SoldierAnt(environment, nest, colony_id))
 
-    simulation = Simulation(environment, agents, winning_food_count=60)
+    simulation = Simulation(environment, agents, winning_food_count=100)
 
     running = True
     while running:
