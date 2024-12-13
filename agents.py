@@ -72,12 +72,12 @@ class SoldierAnt(Ant):
         print(f"Soldier from Nest {self.colony_id + 1} has respawned at the nest.")
 
 
-class QueenAnt(Ant): # stays at nest during the sim, no movements no actions
+class QueenAnt(Ant):  # stays at nest during the sim, no movements no actions
     def act(self, agents, occupied_positions):
         self.current_position = self.environment.nests[self.colony_id]
 
 
-class WorkerAnt(Ant): # below has code for the worker ants to drop pheromone trail, pathfinding, and food collection
+class WorkerAnt(Ant):  # below has code for the worker ants to drop pheromone trail, pathfinding, and food collection
     def act(self, agents, occupied_positions):
         if not self.carrying:
 
@@ -89,7 +89,7 @@ class WorkerAnt(Ant): # below has code for the worker ants to drop pheromone tra
                     next_position = path[1]
                     self.environment.add_pheromone([self.current_position])  # add pheromone at current position
                     self.current_position = next_position
-                    self.move_to(next_position, occupied_positions) # stops ants being on the same tile
+                    self.move_to(next_position, occupied_positions)  # stops ants being on the same tile
                 if self.current_position == best_resource["pos"]:
                     self.carrying = best_resource["type"]
                     self.environment.resources.remove(best_resource)
