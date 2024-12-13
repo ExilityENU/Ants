@@ -5,6 +5,7 @@ import time
 
 class Environment:
     def __init__(self, grid_size, num_resources, respawn_count=1, num_colonies=2):
+        # manages all the interaction between the agents, resources and the grid-based graph world
         self.graph = nx.Graph()
         self.grid_size = grid_size
         self.nests = []
@@ -33,7 +34,7 @@ class Environment:
                     if 0 <= next_x < self.grid_size and 0 <= next_y < self.grid_size:
                         self.graph.add_edge((x, y), (next_x, next_y), weight=1.0)
 
-    def _generate_terrain(self):
+    def _generate_terrain(self): # randomly generate terrain
         terrain_weights = {"grass": 0.60, "rock": 0.30, "water": 0.10}  # % for grass, rocks, water
         terrain_types = list(terrain_weights.keys())
         terrain_probabilities = list(terrain_weights.values())
@@ -49,7 +50,7 @@ class Environment:
                         if self.graph.has_edge((x, y), neighbor):
                             self.graph[(x, y)][neighbor]["weight"] = 2.0
 
-    def _place_nests(self, num_colonies):
+    def _place_nests(self, num_colonies): # randomly spawn nest in the map
         for _ in range(num_colonies):
             while True:
                 x, y = random.randint(0, self.grid_size - 1), random.randint(0, self.grid_size - 1)
@@ -57,18 +58,18 @@ class Environment:
                     self.nests.append((x, y))
                     break
 
-    def _place_resources(self, num_resources):
+    def _place_resources(self, num_resources): # randomly spawn first set of resources
         for _ in range(num_resources):
             self.add_resource()
 
-    def add_resource(self):
+    def add_resource(self): # new resource to a random valid grid location
         while True:
             x, y = random.randint(0, self.grid_size - 1), random.randint(0, self.grid_size - 1)
             if (x, y) not in self.nests and (x, y) in self.graph.nodes:
                 resource_type = random.choice(["food", "water", "energy"])
                 utility = {"food": 10, "water": 5, "energy": 10}[resource_type]
                 self.resources.append({"pos": (x, y), "type": resource_type, "utility": utility})
-                # print(f"Resource added: {resource_type} at ({x}, {y})")
+                # print(f"resource added: {resource_type} at ({x}, {y})")
                 break
 
     # all print functions here are commented out as they are used for testing
@@ -77,14 +78,14 @@ class Environment:
         current_time = time.time()
         for position in path:
             self.pheromone_grid[position] = current_time
-            # print(f"Pheromone added at {position} at time {current_time}")
+            # print(f"pheromone added at {position} at time {current_time}")
 
     def decay_pheromones(self):
         current_time = time.time()
         for position in list(self.pheromone_grid.keys()):
             if current_time - self.pheromone_grid[position] > 5:
                 del self.pheromone_grid[position]
-                # print(f"Pheromone at {position} decayed after 5 seconds")
+                # print(f"pheromone at {position} decayed after 5 seconds")
 
     def respawn_resources(self):
         current_time = time.time()
@@ -92,4 +93,4 @@ class Environment:
             for _ in range(self.respawn_count):
                 self.add_resource()
             self.respawn_timer = current_time  # reset the timer after all resources are added
-            # print(f"Resources respawned. Total resources: {len(self.resources)}")
+            # print(f"resources respawned. Total resources: {len(self.resources)}")

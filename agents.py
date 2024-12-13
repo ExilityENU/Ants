@@ -3,6 +3,7 @@ import random
 
 
 class Ant:
+    # this is the default class for all ants, shared functions lay here
     def __init__(self, environment, nest, colony_id):
         self.environment = environment
         self.current_position = nest
@@ -10,12 +11,14 @@ class Ant:
         self.colony_id = colony_id
 
     def move_to(self, new_position, occupied_positions):
+        # to stop ants from piling up on one tile, so this ensure they only go on an empty tile
         if new_position not in occupied_positions:
             self.current_position = new_position
             return True
         return False
 
     def find_best_resource(self):
+        # finds the best resource based on utility and path cost
         reachable_resources = [
             res for res in self.environment.resources
             if nx.has_path(self.environment.graph, self.current_position, res["pos"])
@@ -74,7 +77,7 @@ class QueenAnt(Ant):
         self.current_position = self.environment.nests[self.colony_id]
 
 
-class WorkerAnt(Ant):
+class WorkerAnt(Ant): # below has code for the worker ants to drop pheromone trail, pathfinding, and food collection
     def act(self, agents, occupied_positions):
         if not self.carrying:
 
@@ -86,7 +89,7 @@ class WorkerAnt(Ant):
                     next_position = path[1]
                     self.environment.add_pheromone([self.current_position])  # add pheromone at current position
                     self.current_position = next_position
-                    self.move_to(next_position, occupied_positions)
+                    self.move_to(next_position, occupied_positions) # stops ants being on the same tile
                 if self.current_position == best_resource["pos"]:
                     self.carrying = best_resource["type"]
                     self.environment.resources.remove(best_resource)
