@@ -11,7 +11,7 @@ class Ant:
         self.colony_id = colony_id
 
     def move_to(self, new_position, occupied_positions):
-        # to stop ants from piling up on one tile, so this ensure they only go on an empty tile
+        # to stop ants from piling up on one tile, so this ensures they only go on an empty tile
         if new_position not in occupied_positions:
             self.current_position = new_position
             return True
