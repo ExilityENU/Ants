@@ -1,6 +1,6 @@
 This is my Ant simulation, with the use of Mulit-Agent System concepts. 
 
-Dowmload and run the main.py file in pycharm, then enjoy.
+Download and run the main.py file in pycharm, then enjoy.
 
 Red: Soldier ants 
 Pink: Worker ants 
