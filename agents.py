@@ -32,38 +32,6 @@ class Ant:
         return best_resource
 
 
-class WorkerAnt(Ant):
-    def act(self, agents, occupied_positions):
-        if not self.carrying:
-
-            best_resource = self.find_best_resource()
-            if best_resource:
-                path = nx.shortest_path(self.environment.graph, self.current_position, best_resource["pos"],
-                                        weight="weight")
-                if len(path) > 1:
-                    next_position = path[1]
-                    self.environment.add_pheromone([self.current_position])  # add pheromone at current position
-                    self.current_position = next_position
-                    self.move_to(next_position, occupied_positions)
-                if self.current_position == best_resource["pos"]:
-                    self.carrying = best_resource["type"]
-                    self.environment.resources.remove(best_resource)
-        else:
-            # return to nest
-            path = nx.shortest_path(self.environment.graph, self.current_position,
-                                    self.environment.nests[self.colony_id], weight="weight")
-            if len(path) > 1:
-                next_position = path[1]
-                self.environment.add_pheromone([self.current_position])
-                self.current_position = next_position
-                self.move_to(next_position, occupied_positions)
-            if self.current_position == self.environment.nests[self.colony_id]:
-                self.environment.colony_food_count[self.colony_id] += 1
-                print(
-                    f"Nest {self.colony_id + 1} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
-                self.carrying = None
-
-
 class SoldierAnt(Ant):
     def act(self, agents, occupied_positions):
         # find nearby enemy soldier ants
@@ -72,7 +40,7 @@ class SoldierAnt(Ant):
                 try:
                     distance = nx.shortest_path_length(self.environment.graph, self.current_position,
                                                        agent.current_position)
-                    if distance == 4:  # engage in combat if adjacent
+                    if distance == 4:  # engage in combat if distance is 4 tiles
                         self.fight(agent)
                         return  # stop further actions this step
                 except nx.NetworkXNoPath:
@@ -104,3 +72,34 @@ class SoldierAnt(Ant):
 class QueenAnt(Ant):
     def act(self, agents, occupied_positions):
         self.current_position = self.environment.nests[self.colony_id]
+
+class WorkerAnt(Ant):
+    def act(self, agents, occupied_positions):
+        if not self.carrying:
+
+            best_resource = self.find_best_resource()
+            if best_resource:
+                path = nx.shortest_path(self.environment.graph, self.current_position, best_resource["pos"],
+                                        weight="weight")
+                if len(path) > 1:
+                    next_position = path[1]
+                    self.environment.add_pheromone([self.current_position])  # add pheromone at current position
+                    self.current_position = next_position
+                    self.move_to(next_position, occupied_positions)
+                if self.current_position == best_resource["pos"]:
+                    self.carrying = best_resource["type"]
+                    self.environment.resources.remove(best_resource)
+        else:
+            # return to nest
+            path = nx.shortest_path(self.environment.graph, self.current_position,
+                                    self.environment.nests[self.colony_id], weight="weight")
+            if len(path) > 1:
+                next_position = path[1]
+                self.environment.add_pheromone([self.current_position])
+                self.current_position = next_position
+                self.move_to(next_position, occupied_positions)
+            if self.current_position == self.environment.nests[self.colony_id]:
+                self.environment.colony_food_count[self.colony_id] += 1
+                print(
+                    f"Nest {self.colony_id + 1} collected food. Total: {self.environment.colony_food_count[self.colony_id]}")
+                self.carrying = None
