@@ -22,7 +22,8 @@ class Environment:
     def _initialize_graph(self):
         directions = [
             (1, 0), (0, 1), (-1, 0), (0, -1),  # cardinal directions
-            (1, 1), (-1, -1), (1, -1), (-1, 1)  # diagonal directions (if allowed)
+            (1, 1), (-1, -1), (1, -1), (-1, 1)
+            # diagonal directions, both movement options allow the ant to be more realistic
         ]
         for x in range(self.grid_size):
             for y in range(self.grid_size):
@@ -33,7 +34,7 @@ class Environment:
                         self.graph.add_edge((x, y), (next_x, next_y), weight=1.0)
 
     def _generate_terrain(self):
-        terrain_weights = {"grass": 0.45, "rock": 0.45, "water": 0.10}  # % for grass, rocks, water
+        terrain_weights = {"grass": 0.60, "rock": 0.30, "water": 0.10}  # % for grass, rocks, water
         terrain_types = list(terrain_weights.keys())
         terrain_probabilities = list(terrain_weights.values())
 

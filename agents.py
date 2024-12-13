@@ -73,6 +73,7 @@ class QueenAnt(Ant):
     def act(self, agents, occupied_positions):
         self.current_position = self.environment.nests[self.colony_id]
 
+
 class WorkerAnt(Ant):
     def act(self, agents, occupied_positions):
         if not self.carrying:
