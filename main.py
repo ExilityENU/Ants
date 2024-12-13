@@ -1,7 +1,7 @@
 import pygame
-from environment import Environment
+from Envi import Environment
 from agents import WorkerAnt, SoldierAnt, QueenAnt
-from simulation import Simulation
+from Sim import Simulation
 
 
 def main():
