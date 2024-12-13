@@ -72,7 +72,7 @@ class SoldierAnt(Ant):
         print(f"Soldier from Nest {self.colony_id + 1} has respawned at the nest.")
 
 
-class QueenAnt(Ant):
+class QueenAnt(Ant): # stays at nest during the sim, no movements no actions
     def act(self, agents, occupied_positions):
         self.current_position = self.environment.nests[self.colony_id]
 
