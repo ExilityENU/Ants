@@ -8,8 +8,8 @@ def main():
     pygame.init()  # this initialises the pygame
 
     # all the settings below can change the map
-    grid_size = 45
-    num_resources = 50  # how many spawn when game is stated
+    grid_size = 50
+    num_resources = 65  # how many spawn when game is stated
     num_colonies = 2
     num_agents_per_colony = 6
     cell_size = 15
@@ -27,7 +27,7 @@ def main():
         for _ in range(num_agents_per_colony // 2):
             agents.append(SoldierAnt(environment, nest, colony_id))
 
-    simulation = Simulation(environment, agents, winning_food_count=100)
+    simulation = Simulation(environment, agents, winning_food_count=300)
 
     running = True
     while running:
@@ -44,7 +44,7 @@ def main():
             running = False
 
         pygame.display.flip()
-        clock.tick(10)
+        clock.tick(9000000)
 
     pygame.quit()
 
